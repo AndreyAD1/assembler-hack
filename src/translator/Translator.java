@@ -7,11 +7,11 @@ import parser.InstructionVisitor;
 public class Translator implements InstructionVisitor<String> {
   @Override
   public String visitInstructionA(AInstruction instruction) {
-    return "";
+    return "testA";
   }
 
   @Override
   public String visitInstructionC(CInstruction instruction) {
-    return "";
+    return "testC";
   }
 }
