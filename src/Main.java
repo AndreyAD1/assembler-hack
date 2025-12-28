@@ -34,6 +34,9 @@ public class Main {
         while (scanner.hasNextLine()) {
           Instruction instruction = parser.getInstruction(scanner.nextLine());
           String machineInstruction = instruction.accept(translator);
+          if (machineInstruction == null) {
+            continue;
+          }
           writer.write(machineInstruction);
           writer.newLine();
         }
