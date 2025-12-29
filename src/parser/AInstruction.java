@@ -1,13 +1,7 @@
 package parser;
 
-public class AInstruction implements Instruction {
-  int value;
-
-  public AInstruction(int value) {
-    this.value = value;
-  }
-
-  public int getValue() {return this.value;};
+public record AInstruction(int value) implements Instruction {
+  ;
 
   @Override
   public <R> R accept(InstructionVisitor<R> visitor) {

@@ -1,13 +1,7 @@
 package parser;
 
-public class CInstruction implements Instruction {
-  private final String destination;
-
-  public CInstruction(String destination) {
-    this.destination = destination;
-  }
-
-  public String getDestination() {return this.destination;};
+public record CInstruction(String destination, String computation,
+                           String jump) implements Instruction {
 
   @Override
   public <R> R accept(InstructionVisitor<R> visitor) {

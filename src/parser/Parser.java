@@ -33,7 +33,7 @@ public class Parser implements IParser {
     }
 
     String destination = getDestination(line, strippedLine);
-    return new CInstruction(destination);
+    return new CInstruction(destination, null, null);
   }
 
   private static @Nullable String getDestination(String line, String strippedLine) {

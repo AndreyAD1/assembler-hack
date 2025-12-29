@@ -11,7 +11,7 @@ public class Translator implements InstructionVisitor<String> {
 
   @Override
   public String visitInstructionA(AInstruction instruction) {
-    int instructionValue = instruction.getValue();
+    int instructionValue = instruction.value();
     int numberOfLeadingZeros = MAX_BIT_NUMBER - Integer.highestOneBit(instructionValue);
     if (instructionValue == 0) {
       return A_INSTRUCTION_BIT + "0".repeat(MAX_BIT_NUMBER);
@@ -22,7 +22,7 @@ public class Translator implements InstructionVisitor<String> {
 
   @Override
   public String visitInstructionC(CInstruction instruction) {
-    return String.format("C instruction: %s", instruction.getDestination());
+    return String.format("C instruction: %s", instruction.destination());
   }
 
   @Override
