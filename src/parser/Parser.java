@@ -31,21 +31,31 @@ public class Parser implements IParser {
       }
       return new AInstruction(parsedValue);
     }
-
-    String destination = getDestination(line, strippedLine);
-    return new CInstruction(destination, null, null);
-  }
-
-  private static @Nullable String getDestination(String line, String strippedLine) {
-    String[] splitDestination = strippedLine.split("=");
-    if (splitDestination.length > 2) {
+    String[] equalSplit = strippedLine.split("=");
+    if (equalSplit.length > 2) {
       throw new IllegalArgumentException(
-        String.format("the invalid line: expect at most one '=': %s", line)
+              String.format("the invalid line: expect at most one '=': %s", line)
       );
     }
+
+    String destination = getDestination(line, equalSplit);
+    String[] semicolonSplit = strippedLine.split(";");
+    if (destination != null) {
+      semicolonSplit = equalSplit[1].split(";");
+    }
+    String computation = semicolonSplit[0];
+
+    String jump = null;
+    if (semicolonSplit.length == 2) {
+      jump = semicolonSplit[1];
+    }
+    return new CInstruction(destination, computation, jump);
+  }
+
+  private static @Nullable String getDestination(String line, String[] equalSplit) {
     String destination = null;
-    if (splitDestination.length == 2) {
-      destination = splitDestination[0];
+    if (equalSplit.length == 2) {
+      destination = equalSplit[0];
       if (!ALLOWED_DESTINATIONS.contains(destination)) {
         throw new IllegalArgumentException(
           String.format(

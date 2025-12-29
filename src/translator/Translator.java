@@ -11,7 +11,7 @@ import parser.InstructionVisitor;
 
 public class Translator implements InstructionVisitor<String> {
   private static final String A_INSTRUCTION_BIT = "0";
-  private static final String C_INSTRUCTION_BIT = "1";
+  private static final String C_INSTRUCTION_BITS = "111";
   private static final int MAX_BIT_NUMBER = 15;
   private static final Map<String, String> destinationMap = Map.of(
           "M", "001",
@@ -30,6 +30,36 @@ public class Translator implements InstructionVisitor<String> {
           "JNE", "101",
           "JLE", "110",
           "JMP", "111"
+  );
+  private static final Map<String, String> computationMap = Map.ofEntries(
+          Map.entry("0", "00101010"),
+          Map.entry("1", "0101010"),
+          Map.entry("-1", "0111010"),
+          Map.entry("D", "0001100"),
+          Map.entry("A", "0110000"),
+          Map.entry("!D", "0001101"),
+          Map.entry("!A", "0110001"),
+          Map.entry("-D", "0001111"),
+          Map.entry("-A", "0110011"),
+          Map.entry("D+1", "0011111"),
+          Map.entry("A+1", "0110111"),
+          Map.entry("D-1", "0001110"),
+          Map.entry("A-1", "0110010"),
+          Map.entry("D+A", "0000010"),
+          Map.entry("D-A", "0010011"),
+          Map.entry("A-D", "0000111"),
+          Map.entry("D&A", "0000000 "),
+          Map.entry("D|A", "0010101"),
+          Map.entry("M", "1110000"),
+          Map.entry("!M", "1110001"),
+          Map.entry("-M", "1110011"),
+          Map.entry("M+1", "1110111"),
+          Map.entry("M-1", "1110010"),
+          Map.entry("D+M", "1000010"),
+          Map.entry("D-M", "1010011"),
+          Map.entry("M-D", "1000111"),
+          Map.entry("D&M", "1000000"),
+          Map.entry("D|M", "1010101")
   );
 
   @Override
@@ -55,7 +85,8 @@ public class Translator implements InstructionVisitor<String> {
     if (jump != null) {
       jumpBits = jumpMap.get(jump);
     }
-    return C_INSTRUCTION_BIT + destinationBits + jumpBits;
+    String computationBits = computationMap.get(instruction.computation());
+    return C_INSTRUCTION_BITS + computationBits + destinationBits + jumpBits;
   }
 
   @Override
