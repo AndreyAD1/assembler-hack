@@ -1,5 +1,7 @@
 package parser;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
 
 public class Parser implements IParser {
@@ -18,9 +20,23 @@ public class Parser implements IParser {
       return new AbsentInstruction();
     }
     if (strippedLine.startsWith("@")) {
-      return new AInstruction();
+      String value = strippedLine.substring(1);
+      int parsedValue;
+      try {
+        parsedValue = Integer.parseUnsignedInt(value, 10);
+      } catch (NumberFormatException ex) {
+        throw new IllegalArgumentException(
+          String.format("The unexpected value. Expect positive number. Got: %s", line)
+        );
+      }
+      return new AInstruction(parsedValue);
     }
 
+    String destination = getDestination(line, strippedLine);
+    return new CInstruction(destination);
+  }
+
+  private static @Nullable String getDestination(String line, String strippedLine) {
     String[] splitDestination = strippedLine.split("=");
     if (splitDestination.length > 2) {
       throw new IllegalArgumentException(
@@ -34,11 +50,11 @@ public class Parser implements IParser {
         throw new IllegalArgumentException(
           String.format(
             "Unexpected destination. Expect one of %s. Got: %s", ALLOWED_DESTINATIONS,
-            line
+                  line
           )
         );
       }
     }
-    return new CInstruction(destination);
+    return destination;
   }
 }

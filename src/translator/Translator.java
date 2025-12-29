@@ -8,12 +8,12 @@ import parser.InstructionVisitor;
 public class Translator implements InstructionVisitor<String> {
   @Override
   public String visitInstructionA(AInstruction instruction) {
-    return "testA";
+    return String.format("A instruction: %s", instruction.getValue());
   }
 
   @Override
   public String visitInstructionC(CInstruction instruction) {
-    return "testC";
+    return String.format("C instruction: %s", instruction.getDestination());
   }
 
   @Override

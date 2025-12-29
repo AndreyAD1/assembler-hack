@@ -7,6 +7,8 @@ public class CInstruction implements Instruction {
     this.destination = destination;
   }
 
+  public String getDestination() {return this.destination;};
+
   @Override
   public <R> R accept(InstructionVisitor<R> visitor) {
     return visitor.visitInstructionC(this);
