@@ -22,6 +22,15 @@ public class Translator implements InstructionVisitor<String> {
           "AD", "110",
           "AMD", "111"
   );
+  private static final Map<String, String> jumpMap = Map.of(
+          "JGT", "001",
+          "JEQ", "010",
+          "JGE", "011",
+          "JLT", "100",
+          "JNE", "101",
+          "JLE", "110",
+          "JMP", "111"
+  );
 
   @Override
   public String visitInstructionA(AInstruction instruction) {
@@ -37,8 +46,16 @@ public class Translator implements InstructionVisitor<String> {
   @Override
   public String visitInstructionC(CInstruction instruction) {
     String destination = instruction.destination();
-    String destinationBits = destinationMap.getOrDefault(destination, "000");
-    return C_INSTRUCTION_BIT + destinationBits;
+    String jump = instruction.jump();
+    String destinationBits = "000";
+    String jumpBits = "000";
+    if (destination != null) {
+      destinationBits = destinationMap.get(destination);
+    }
+    if (jump != null) {
+      jumpBits = jumpMap.get(jump);
+    }
+    return C_INSTRUCTION_BIT + destinationBits + jumpBits;
   }
 
   @Override
