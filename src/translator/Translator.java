@@ -32,8 +32,8 @@ public class Translator implements InstructionVisitor<String> {
           "JMP", "111"
   );
   private static final Map<String, String> computationMap = Map.ofEntries(
-          Map.entry("0", "00101010"),
-          Map.entry("1", "0101010"),
+          Map.entry("0", "0101010"),
+          Map.entry("1", "0111111"),
           Map.entry("-1", "0111010"),
           Map.entry("D", "0001100"),
           Map.entry("A", "0110000"),
@@ -65,12 +65,10 @@ public class Translator implements InstructionVisitor<String> {
   @Override
   public String visitInstructionA(AInstruction instruction) {
     int instructionValue = instruction.value();
-    int numberOfLeadingZeros = MAX_BIT_NUMBER - Integer.highestOneBit(instructionValue);
-    if (instructionValue == 0) {
-      return A_INSTRUCTION_BIT + "0".repeat(MAX_BIT_NUMBER);
-    }
-    String binaryValue =  Integer.toBinaryString(instructionValue);
-    return A_INSTRUCTION_BIT + "0".repeat(numberOfLeadingZeros) + binaryValue;
+    String binaryValue = String.format(
+      "%15s", Integer.toBinaryString(instructionValue)
+    ).replace(" ", "0");
+    return A_INSTRUCTION_BIT + binaryValue;
   }
 
   @Override

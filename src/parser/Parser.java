@@ -14,9 +14,10 @@ public class Parser implements IParser {
     if (line == null || line.isBlank()) {
       return new AbsentInstruction();
     }
+    String[] splitByComment = line.split("//", 2);
     // remove all whitespaces
-    String strippedLine = line.replaceAll("\s", "");
-    if (strippedLine.startsWith("//")) {
+    String strippedLine = splitByComment[0].replaceAll("\s", "");
+    if (strippedLine.isBlank()) {
       return new AbsentInstruction();
     }
     if (strippedLine.startsWith("@")) {
