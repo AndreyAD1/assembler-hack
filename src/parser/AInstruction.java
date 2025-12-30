@@ -1,7 +1,6 @@
 package parser;
 
-public record AInstruction(int value) implements Instruction {
-  ;
+public record AInstruction(AValue value) implements Instruction {
 
   @Override
   public <R> R accept(InstructionVisitor<R> visitor) {

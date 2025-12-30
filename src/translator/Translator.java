@@ -5,14 +5,17 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Map;
 
 import parser.AInstruction;
+import parser.AValue;
 import parser.AbsentInstruction;
 import parser.CInstruction;
+import parser.Constant;
 import parser.InstructionVisitor;
+import parser.Symbol;
+import parser.ValueVisitor;
 
-public class Translator implements InstructionVisitor<String> {
+public class Translator implements InstructionVisitor<String>, ValueVisitor<String> {
   private static final String A_INSTRUCTION_BIT = "0";
   private static final String C_INSTRUCTION_BITS = "111";
-  private static final int MAX_BIT_NUMBER = 15;
   private static final Map<String, String> destinationMap = Map.of(
           "M", "001",
           "D", "010",
@@ -61,14 +64,16 @@ public class Translator implements InstructionVisitor<String> {
           Map.entry("D&M", "1000000"),
           Map.entry("D|M", "1010101")
   );
+  private Map<String, Integer> symbolTable;
+
+  public Translator(Map<String, Integer> symbolTable) {
+    this.symbolTable = symbolTable;
+  }
 
   @Override
   public String visitInstructionA(AInstruction instruction) {
-    int instructionValue = instruction.value();
-    String binaryValue = String.format(
-      "%15s", Integer.toBinaryString(instructionValue)
-    ).replace(" ", "0");
-    return A_INSTRUCTION_BIT + binaryValue;
+    AValue instructionValue = instruction.value();
+    return instructionValue.accept(this);
   }
 
   @Override
@@ -90,5 +95,18 @@ public class Translator implements InstructionVisitor<String> {
   @Override
   public String visitAbsentInstruction(AbsentInstruction instruction) {
     return null;
+  }
+
+  @Override
+  public String visitConstant(Constant constant) {
+    String binaryValue = String.format(
+            "%15s", Integer.toBinaryString(constant.getValue())
+    ).replace(" ", "0");
+    return A_INSTRUCTION_BIT + binaryValue;
+  }
+
+  @Override
+  public String visitSymbol(Symbol symbol) {
+    return "";
   }
 }

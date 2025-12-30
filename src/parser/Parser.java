@@ -22,15 +22,14 @@ public class Parser implements IParser {
     }
     if (strippedLine.startsWith("@")) {
       String value = strippedLine.substring(1);
-      int parsedValue;
+      AValue instructionValue;
       try {
-        parsedValue = Integer.parseUnsignedInt(value, 10);
+        int parsedValue = Integer.parseUnsignedInt(value, 10);
+        instructionValue = new Constant(parsedValue);
       } catch (NumberFormatException ex) {
-        throw new IllegalArgumentException(
-          String.format("The unexpected value. Expect positive number. Got: %s", line)
-        );
+        instructionValue = new Symbol(value);
       }
-      return new AInstruction(parsedValue);
+      return new AInstruction(instructionValue);
     }
     String[] equalSplit = strippedLine.split("=");
     if (equalSplit.length > 2) {

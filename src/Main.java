@@ -3,6 +3,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.BufferedWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Map;
 import java.util.Scanner;
 
 import parser.Instruction;
@@ -30,7 +31,7 @@ public class Main {
       try (Scanner scanner = new Scanner(fileToTranslate);
            BufferedWriter writer = Files.newBufferedWriter(outputFilepath)) {
         Parser parser = new Parser();
-        Translator translator = new Translator();
+        Translator translator = new Translator(Map.of());
         while (scanner.hasNextLine()) {
           Instruction instruction = parser.getInstruction(scanner.nextLine());
           String machineInstruction = instruction.accept(translator);
