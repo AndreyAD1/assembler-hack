@@ -38,7 +38,10 @@ public class Main {
             continue;
           }
           writer.write(machineInstruction);
-          writer.newLine();
+          // don't add an empty last line
+          if (scanner.hasNextLine()) {
+            writer.newLine();
+          }
         }
       }
     }
