@@ -65,6 +65,7 @@ public class Translator implements InstructionVisitor<String>, ValueVisitor<Stri
           Map.entry("D|M", "1010101")
   );
   private Map<String, Integer> symbolTable;
+  private int availableMemoryLocation = 16;
 
   public Translator(Map<String, Integer> symbolTable) {
     this.symbolTable = symbolTable;
@@ -99,14 +100,24 @@ public class Translator implements InstructionVisitor<String>, ValueVisitor<Stri
 
   @Override
   public String visitConstant(Constant constant) {
-    String binaryValue = String.format(
-            "%15s", Integer.toBinaryString(constant.getValue())
-    ).replace(" ", "0");
-    return A_INSTRUCTION_BIT + binaryValue;
+    return this.getAInstruction(constant.getValue());
   }
 
   @Override
   public String visitSymbol(Symbol symbol) {
-    return "";
+    String value = symbol.getValue();
+    if (!this.symbolTable.containsKey(value)) {
+      this.symbolTable.put(value, this.availableMemoryLocation);
+      this.availableMemoryLocation++;
+    }
+    int address = this.symbolTable.get(value);
+    return this.getAInstruction(address);
+  }
+
+  private String getAInstruction(int value) {
+    String binaryValue = String.format(
+            "%15s", Integer.toBinaryString(value)
+    ).replace(" ", "0");
+    return A_INSTRUCTION_BIT + binaryValue;
   }
 }

@@ -7,7 +7,7 @@ public class Symbol implements AValue {
     this.value = value;
   }
 
-  String getValue() {return this.value;}
+  public String getValue() {return this.value;}
 
   @Override
   public <R> R accept(ValueVisitor<R> visitor) {
