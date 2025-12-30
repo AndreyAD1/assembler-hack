@@ -1,7 +1,6 @@
 package translator;
 
-import org.jetbrains.annotations.Nullable;
-
+import java.util.HashMap;
 import java.util.Map;
 
 import parser.AInstruction;
@@ -35,40 +34,63 @@ public class Translator implements InstructionVisitor<String>, ValueVisitor<Stri
           "JMP", "111"
   );
   private static final Map<String, String> computationMap = Map.ofEntries(
-          Map.entry("0", "0101010"),
-          Map.entry("1", "0111111"),
-          Map.entry("-1", "0111010"),
-          Map.entry("D", "0001100"),
-          Map.entry("A", "0110000"),
-          Map.entry("!D", "0001101"),
-          Map.entry("!A", "0110001"),
-          Map.entry("-D", "0001111"),
-          Map.entry("-A", "0110011"),
-          Map.entry("D+1", "0011111"),
-          Map.entry("A+1", "0110111"),
-          Map.entry("D-1", "0001110"),
-          Map.entry("A-1", "0110010"),
-          Map.entry("D+A", "0000010"),
-          Map.entry("D-A", "0010011"),
-          Map.entry("A-D", "0000111"),
-          Map.entry("D&A", "0000000 "),
-          Map.entry("D|A", "0010101"),
-          Map.entry("M", "1110000"),
-          Map.entry("!M", "1110001"),
-          Map.entry("-M", "1110011"),
-          Map.entry("M+1", "1110111"),
-          Map.entry("M-1", "1110010"),
-          Map.entry("D+M", "1000010"),
-          Map.entry("D-M", "1010011"),
-          Map.entry("M-D", "1000111"),
-          Map.entry("D&M", "1000000"),
-          Map.entry("D|M", "1010101")
+    Map.entry("0", "0101010"),
+    Map.entry("1", "0111111"),
+    Map.entry("-1", "0111010"),
+    Map.entry("D", "0001100"),
+    Map.entry("A", "0110000"),
+    Map.entry("!D", "0001101"),
+    Map.entry("!A", "0110001"),
+    Map.entry("-D", "0001111"),
+    Map.entry("-A", "0110011"),
+    Map.entry("D+1", "0011111"),
+    Map.entry("A+1", "0110111"),
+    Map.entry("D-1", "0001110"),
+    Map.entry("A-1", "0110010"),
+    Map.entry("D+A", "0000010"),
+    Map.entry("D-A", "0010011"),
+    Map.entry("A-D", "0000111"),
+    Map.entry("D&A", "0000000 "),
+    Map.entry("D|A", "0010101"),
+    Map.entry("M", "1110000"),
+    Map.entry("!M", "1110001"),
+    Map.entry("-M", "1110011"),
+    Map.entry("M+1", "1110111"),
+    Map.entry("M-1", "1110010"),
+    Map.entry("D+M", "1000010"),
+    Map.entry("D-M", "1010011"),
+    Map.entry("M-D", "1000111"),
+    Map.entry("D&M", "1000000"),
+    Map.entry("D|M", "1010101")
   );
-  private Map<String, Integer> symbolTable;
+  private Map<String, Integer> symbolTable = new HashMap<>();
   private int availableMemoryLocation = 16;
 
-  public Translator(Map<String, Integer> symbolTable) {
-    this.symbolTable = symbolTable;
+  public Translator(Map<String, Integer> pseudoCommands) {
+    this.symbolTable.putAll(pseudoCommands);
+    this.symbolTable.put("SP", 0);
+    this.symbolTable.put("LCL", 1);
+    this.symbolTable.put("ARG", 2);
+    this.symbolTable.put("THIS", 3);
+    this.symbolTable.put("THAT", 4);
+    this.symbolTable.put("R0", 0);
+    this.symbolTable.put("R1", 1);
+    this.symbolTable.put("R2", 2);
+    this.symbolTable.put("R3", 3);
+    this.symbolTable.put("R4", 4);
+    this.symbolTable.put("R5", 5);
+    this.symbolTable.put("R6", 6);
+    this.symbolTable.put("R7", 7);
+    this.symbolTable.put("R8", 8);
+    this.symbolTable.put("R9", 9);
+    this.symbolTable.put("R10", 10);
+    this.symbolTable.put("R11", 11);
+    this.symbolTable.put("R12", 12);
+    this.symbolTable.put("R13", 13);
+    this.symbolTable.put("R14", 14);
+    this.symbolTable.put("R15", 15);
+    this.symbolTable.put("SCREEN", 16384);
+    this.symbolTable.put("KBD", 24576);
   }
 
   @Override
