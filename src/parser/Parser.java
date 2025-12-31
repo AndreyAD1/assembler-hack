@@ -20,6 +20,10 @@ public class Parser implements IParser {
     if (strippedLine.isBlank()) {
       return new AbsentInstruction();
     }
+    if (strippedLine.startsWith("(")) {
+      String label = strippedLine.substring(1, strippedLine.length() - 1);
+      return new PseudoInstruction(label);
+    }
     if (strippedLine.startsWith("@")) {
       String value = strippedLine.substring(1);
       AValue instructionValue;

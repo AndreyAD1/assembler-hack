@@ -8,18 +8,15 @@ import java.util.Scanner;
 
 import parser.Instruction;
 import parser.Parser;
+import translator.PseudoCommandRegister;
 import translator.Translator;
 
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
   public static void main(String @NotNull [] args) {
     if (args.length == 0) {
       throw new IllegalArgumentException("Expect a path to a file to translate");
     }
-    // iterate over the file lines
-    // parse each line, translate an instruction, write the translated instruction to the iuput file
     Path fileToTranslate = Path.of(args[0]);
     if (!Files.exists(fileToTranslate)) {
       throw new IllegalArgumentException(String.format(
@@ -27,11 +24,20 @@ public class Main {
       );
     }
     Path outputFilepath = getOutputFilepath(fileToTranslate);
+    Parser parser = new Parser();
+    PseudoCommandRegister register = new PseudoCommandRegister();
     try {
+      try (Scanner scanner = new Scanner(fileToTranslate)) {
+        while (scanner.hasNextLine()) {
+          Instruction instruction = parser.getInstruction(scanner.nextLine());
+          instruction.accept(register);
+        }
+      }
+
       try (Scanner scanner = new Scanner(fileToTranslate);
            BufferedWriter writer = Files.newBufferedWriter(outputFilepath)) {
-        Parser parser = new Parser();
-        Translator translator = new Translator(Map.of());
+        Map<String, Integer> pseudoCommands = register.getSymbolTable();
+        Translator translator = new Translator(pseudoCommands);
         while (scanner.hasNextLine()) {
           Instruction instruction = parser.getInstruction(scanner.nextLine());
           String machineInstruction = instruction.accept(translator);
@@ -39,7 +45,7 @@ public class Main {
             continue;
           }
           writer.write(machineInstruction);
-          // don't add an empty last line
+          // don't add the last empty line
           if (scanner.hasNextLine()) {
             writer.newLine();
           }

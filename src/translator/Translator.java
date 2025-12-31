@@ -9,6 +9,7 @@ import parser.AbsentInstruction;
 import parser.CInstruction;
 import parser.Constant;
 import parser.InstructionVisitor;
+import parser.PseudoInstruction;
 import parser.Symbol;
 import parser.ValueVisitor;
 
@@ -117,6 +118,11 @@ public class Translator implements InstructionVisitor<String>, ValueVisitor<Stri
 
   @Override
   public String visitAbsentInstruction(AbsentInstruction instruction) {
+    return null;
+  }
+
+  @Override
+  public String visitPseudoInstruction(PseudoInstruction instruction) {
     return null;
   }
 
