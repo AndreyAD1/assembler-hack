@@ -42,4 +42,4 @@ mvn compile
 ```shell
 mvn exec:java -Dexec.args="examples/Add.asm"
 ```
-This command creates a file `examples/Add.hack`, containing the binary code.
+This command creates a file [Add.hack](examples/Add.hack), containing the binary code.
