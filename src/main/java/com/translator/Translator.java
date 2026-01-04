@@ -1,17 +1,17 @@
-package translator;
+package com.translator;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import parser.AInstruction;
-import parser.AValue;
-import parser.AbsentInstruction;
-import parser.CInstruction;
-import parser.Constant;
-import parser.InstructionVisitor;
-import parser.PseudoInstruction;
-import parser.Symbol;
-import parser.ValueVisitor;
+import com.parser.AInstruction;
+import com.parser.AValue;
+import com.parser.AbsentInstruction;
+import com.parser.CInstruction;
+import com.parser.Constant;
+import com.parser.InstructionVisitor;
+import com.parser.PseudoInstruction;
+import com.parser.Symbol;
+import com.parser.ValueVisitor;
 
 public class Translator implements InstructionVisitor<String>, ValueVisitor<String> {
   private static final String A_INSTRUCTION_BIT = "0";

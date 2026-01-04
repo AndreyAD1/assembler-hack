@@ -1,4 +1,4 @@
-package parser;
+package com.parser;
 
 public class AbsentInstruction implements Instruction {
   @Override

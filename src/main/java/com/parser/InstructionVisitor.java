@@ -1,4 +1,4 @@
-package parser;
+package com.parser;
 
 public interface InstructionVisitor<R> {
   R visitInstructionA(AInstruction instruction);

@@ -29,3 +29,6 @@ bin/
 .DS_Store
 
 input/
+target/
+.idea/
+*.iml

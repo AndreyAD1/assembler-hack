@@ -1,13 +1,13 @@
-package translator;
+package com.translator;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import parser.AInstruction;
-import parser.AbsentInstruction;
-import parser.CInstruction;
-import parser.InstructionVisitor;
-import parser.PseudoInstruction;
+import com.parser.AInstruction;
+import com.parser.AbsentInstruction;
+import com.parser.CInstruction;
+import com.parser.InstructionVisitor;
+import com.parser.PseudoInstruction;
 
 public class PseudoCommandRegister implements InstructionVisitor<Void> {
   private HashMap<String, Integer> commandsByLine;

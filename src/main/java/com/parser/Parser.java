@@ -1,4 +1,4 @@
-package parser;
+package com.parser;
 
 import org.jetbrains.annotations.Nullable;
 

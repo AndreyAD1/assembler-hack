@@ -1,4 +1,4 @@
-package parser;
+package com.parser;
 
 public record AInstruction(AValue value) implements Instruction {
 

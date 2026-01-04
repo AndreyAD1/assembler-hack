@@ -1,4 +1,4 @@
-package parser;
+package com.parser;
 
 public record CInstruction(String destination, String computation,
                            String jump) implements Instruction {

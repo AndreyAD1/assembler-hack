@@ -1,4 +1,4 @@
-package parser;
+package com.parser;
 
 public class Symbol implements AValue {
   private final String value;

@@ -1,3 +1,5 @@
+package com.assembler;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedWriter;
@@ -6,10 +8,10 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.Scanner;
 
-import parser.Instruction;
-import parser.Parser;
-import translator.PseudoCommandRegister;
-import translator.Translator;
+import com.parser.Instruction;
+import com.parser.Parser;
+import com.translator.PseudoCommandRegister;
+import com.translator.Translator;
 
 
 public class Main {

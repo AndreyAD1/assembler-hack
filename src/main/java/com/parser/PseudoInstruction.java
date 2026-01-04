@@ -1,4 +1,4 @@
-package parser;
+package com.parser;
 
 public class PseudoInstruction implements Instruction {
   private final String label;
