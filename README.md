@@ -5,7 +5,7 @@ The assembler specification is [here](https://b1391bd6-da3d-477d-8c01-38cdf77449
 
 ## Motivation
 
-In this project I implemented a simple assembler for a simple CPU to refine 
+In this project, I implemented a simple assembler for a simple CPU to refine 
 my knowledge of low-level software.
 
 ## Getting Started
